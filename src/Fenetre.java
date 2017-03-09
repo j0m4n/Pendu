@@ -1,10 +1,14 @@
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 public class Fenetre extends JFrame
 {
@@ -30,12 +34,14 @@ public class Fenetre extends JFrame
 	    
 	    panAccueil accueil = new panAccueil();
 	    panRegles regles = new panRegles();
+	    panJeu jeu = new panJeu();
 	    
 	    container.setLayout(cl);
-	    container.add(accueil, "CARD_1");
-	    container.add(regles, "CARD_2");
+	    container.add(accueil, "accueil");
+	    container.add(regles, "regles");
+	    container.add(jeu, "jeu");
 	    
-	    cl.show(container, "CARD_1");
+	    cl.show(container, "accueil");
 	    
 	    this.setContentPane(container);
 	    
@@ -48,13 +54,30 @@ public class Fenetre extends JFrame
 		menuBar.add(menuFichier);
 		menuFichier.setMnemonic('F');
 		menuFichier.add(itemNouveau);
+		itemNouveau.addActionListener(new itemNouveauListener());
+		itemNouveau.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK));
 		menuFichier.add(itemScores);
 		menuFichier.add(itemRegles);
 		
 		menuBar.add(menuAPropos);
 		menuAPropos.add(itemAPropos);
 		menuAPropos.setMnemonic('o');
-		
-		
+		itemAPropos.addActionListener(new itemAProposListener());
+	}
+	
+	public class itemAProposListener implements ActionListener
+	{
+		public void actionPerformed (ActionEvent e)
+		{
+			cl.show(container, "regles");
+		}
+	}
+	
+	public class itemNouveauListener implements ActionListener
+	{
+		public void actionPerformed (ActionEvent e)
+		{
+			cl.show(container, "jeu");
+		}
 	}
 }

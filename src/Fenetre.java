@@ -25,6 +25,13 @@ public class Fenetre extends JFrame
 	private CardLayout cl = new CardLayout();
 	private JPanel container = new JPanel();
 	
+   /* private panAccueil accueil = new panAccueil();
+    private panRegles regles = new panRegles();
+    private panJeu jeu = new panJeu();
+    private panScore score = new panScore();*/
+	
+	panScore panScore;
+	
 	public Fenetre()
 	{
 		this.setSize(900,600);
@@ -32,14 +39,16 @@ public class Fenetre extends JFrame
 	    this.setLocationRelativeTo(null);
 	    this.initMenu();
 	    
-	    panAccueil accueil = new panAccueil();
-	    panRegles regles = new panRegles();
-	    panJeu jeu = new panJeu();
+	    panAccueil panAccueil = new panAccueil();
+	    panRegles panRregles = new panRegles();
+	    panJeu panJeu = new panJeu();
+	    panScore panScore = new panScore();
 	    
 	    container.setLayout(cl);
-	    container.add(accueil, "accueil");
-	    container.add(regles, "regles");
-	    container.add(jeu, "jeu");
+	    container.add(panAccueil, "accueil");
+	    container.add(panRregles, "regles");
+	    container.add(panJeu, "jeu");
+	    container.add(panScore, "score");
 	    
 	    cl.show(container, "accueil");
 	    
@@ -47,8 +56,8 @@ public class Fenetre extends JFrame
 	    
 	    this.setVisible(true);
 	}
-
-	private void initMenu()
+	
+	public void initMenu()
 	{
 		this.setJMenuBar(menuBar);
 		menuBar.add(menuFichier);
@@ -57,7 +66,9 @@ public class Fenetre extends JFrame
 		itemNouveau.addActionListener(new itemNouveauListener());
 		itemNouveau.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK));
 		menuFichier.add(itemScores);
+		itemScores.addActionListener(new itemScoresListener());
 		menuFichier.add(itemRegles);
+		itemRegles.addActionListener(new itemReglesListener());
 		
 		menuBar.add(menuAPropos);
 		menuAPropos.add(itemAPropos);
@@ -69,6 +80,14 @@ public class Fenetre extends JFrame
 	{
 		public void actionPerformed (ActionEvent e)
 		{
+			cl.show(container, "accueil");
+		}
+	}
+	
+	public class itemReglesListener implements ActionListener
+	{
+		public void actionPerformed (ActionEvent e)
+		{
 			cl.show(container, "regles");
 		}
 	}
@@ -77,7 +96,19 @@ public class Fenetre extends JFrame
 	{
 		public void actionPerformed (ActionEvent e)
 		{
+			//cree un nouveau jeu a chaque appel
+			panJeu panJeu = new panJeu();
+			container.add(panJeu, "jeu");
 			cl.show(container, "jeu");
 		}
 	}
+	
+	public class itemScoresListener implements ActionListener
+	{
+		public void actionPerformed (ActionEvent e)
+		{
+			cl.show(container, "score");
+		}
+	}
+
 }
